@@ -86,23 +86,16 @@ Keep in mind that you should only display universities that closely match the us
     response = rag.chat(prompt)
     return response.response
 
-# File upload widget
-uploaded_file = st.file_uploader("Upload here⬇️", type=["pdf", "docx"])
+# File path input field
+file_path = "top_5_unis.docx"
 
-if uploaded_file is not None:
-    # Save the uploaded file to the data directory
-    file_path = os.path.join(data_directory, uploaded_file.name)
-    with open(file_path, "wb") as file:
-        file.write(uploaded_file.getvalue())
-    
-    # Display the path of the stored file
-    st.success("File successfully saved")
-
+# Check if file path is not empty and exists
+if file_path and os.path.exists(file_path):
     # User input 
     gre = st.number_input("What's your GRE score?", step=10, min_value=260, max_value=340)
     ielts = st.number_input("What's your IELTS score?", step=0.5, min_value=5.0, max_value=9.0)
     ambition = st.text_input("What is your ambition?")
-    expense = st.text_input("What is your budget/year?",placeholder="$")
+    expense = st.text_input("What is your budget/year?", placeholder="$")
 
     # Generate advice button
     if st.button("Get Advice"):
@@ -111,6 +104,8 @@ if uploaded_file is not None:
         else:
             automatic_response = advisor_response(file_path, gre, ielts, expense, ambition)
             st.markdown(automatic_response)
+else:
+    st.info("Please enter a valid file path.")
 
 # Footer or any additional information
 with st.expander("ℹ️ - About this App"):
