@@ -95,7 +95,7 @@ if file_path and os.path.exists(file_path):
     gre = st.number_input("What's your GRE score?", step=10, min_value=260, max_value=340)
     ielts = st.number_input("What's your IELTS score?", step=0.5, min_value=5.0, max_value=9.0)
     ambition = st.text_input("What is your ambition?")
-    expense = st.text_input("Your expected average tuition fee?", placeholder="$")
+    expense = st.text_input("Your expected tuition fee?", placeholder="$")
 
     # Generate advice button
     if st.button("Get Advice"):
