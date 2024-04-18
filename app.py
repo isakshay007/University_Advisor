@@ -60,49 +60,53 @@ def rag_implementation(file_path):
         raise ValueError("Unsupported file type. Only PDF and DOCX files are supported.")
 
 # Function to get Lyzr response
-def advisor_response(file_path, gre, ielts, expense, ambition):
+def advisor_response(file_path, gre, gmat, ielts, expense, ambition, location):
     rag = rag_implementation(file_path)
     prompt = f""" 
-You are an expert university student advisor. Always Introduce yourself. Your task is to provide university recommendations by analyzing the provided GRE scores {gre}, IELTS scores {ielts}, the user's ambition {ambition}, and the average tuition fee {expense}, and suggest the most suitable universities from the uploaded document.Dont mention "uploaded document" in your responses.
+You are an expert university student advisor. Always Introduce yourself. Your task is to provide university recommendations by analyzing the provided GRE scores {gre}, IELTS scores {ielts}, the user's ambition {ambition}, and budget {expense}, and suggest the most suitable universities from the uploaded document.
 
 Here's your step-by-step guide:
 
 1. Begin by examining the uploaded document with detailed information on various universities to understand the options available.
 
-2. Next, evaluate the user's GRE {gre} and IELTS {ielts} scores to gauge their academic standing.
+2. Next, evaluate the user's GRE {gre} and gmat {gmat} scores to gauge their academic standing.
 
-3. Consider the user's ambition and assess their financial constraints by looking at their provided average tuition fee {expense}.
+3. Consider the user's ambition{ambition} and assess their financial constraints by looking at their budget {expense}.
 
 4. Compare and match the user's qualifications, goals, and financial capacity with appropriate universities from your initial analysis.
 
 5. Compile a shortlist of universities that best align with all of the user's criteria, focusing on those that closely match their profile.
 
-6. Present your recommendations to the user in a clear manner, explaining why each university is a strong match based on their individual needs and aspirations.
+6. After shortlisting based on expense fees{expense}, GRE {gre}, and GMAT{gmat} scores, LOCATE universities either in or near the specified user preferred location{location} for additional suitability.
+
+7. Present your recommendations to the user in a clear manner, explaining why each university is a strong match based on their individual needs and aspirations.
 
 You must undertake this task with diligence as it will have a profound effect on a student's future education path.
 
-Keep in mind that you should only display universities that closely match the user's profile in markdown , rather than showing the entire list from the uploaded document. Your recommendations should be customized to fit both academic standards and financial capabilities while supporting long-term objectives.
+Keep in mind that you should only display universities that closely match the user's profile in markdown format , rather than showing the entire list from the uploaded document. Your recommendations should be customized to fit both academic standards and financial capabilities while supporting long-term objectives.
 """
     response = rag.chat(prompt)
     return response.response
 
 # File path input field
-file_path = "Ivy league info.docx"
+file_path = "top_200_USA.pdf"
 
 # Check if file path is not empty and exists
 if file_path and os.path.exists(file_path):
+     
     # User input 
     gre = st.number_input("What's your GRE score?", step=10, min_value=260, max_value=340)
-    ielts = st.number_input("What's your IELTS score?", step=0.5, min_value=5.0, max_value=9.0)
+    gmat = st.number_input("What's your Gmat score?", step=10, min_value=200, max_value=800)
     ambition = st.text_input("What is your ambition?")
-    expense = st.text_input("Your expected tuition fee?", placeholder="$")
+    expense = st.text_input("What is your expected average fees?",placeholder="$")
+    location = st.text_input("Whats your preferred location?")
 
     # Generate advice button
     if st.button("Get Advice"):
         if not gre or not ielts or not ambition or not expense:
             st.warning("Please fill out all fields.")
         else:
-            automatic_response = advisor_response(file_path, gre, ielts, expense, ambition)
+            automatic_response = advisor_response(file_path, gre, gmat, ielts, expense, ambition,location)
             st.markdown(automatic_response)
 else:
     st.info("Please enter a valid file path.")
