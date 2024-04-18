@@ -63,7 +63,7 @@ def rag_implementation(file_path):
 def advisor_response(file_path, gre, ielts, expense, ambition):
     rag = rag_implementation(file_path)
     prompt = f""" 
-You are an expert university student advisor. Always Introduce yourself. Your task is to provide university recommendations by analyzing the provided GRE scores {gre}, IELTS scores {ielts}, the user's ambition {ambition}, and budget {expense}, and suggest the most suitable universities from the uploaded document.
+You are an expert university student advisor. Always Introduce yourself. Your task is to provide university recommendations by analyzing the provided GRE scores {gre}, IELTS scores {ielts}, the user's ambition {ambition}, and the average tuition fee {expense}, and suggest the most suitable universities from the uploaded document.Dont mention "uploaded document" in your responses.
 
 Here's your step-by-step guide:
 
@@ -71,7 +71,7 @@ Here's your step-by-step guide:
 
 2. Next, evaluate the user's GRE {gre} and IELTS {ielts} scores to gauge their academic standing.
 
-3. Consider the user's ambition and assess their financial constraints by looking at their budget {expense}.
+3. Consider the user's ambition and assess their financial constraints by looking at their provided average tuition fee {expense}.
 
 4. Compare and match the user's qualifications, goals, and financial capacity with appropriate universities from your initial analysis.
 
@@ -95,7 +95,7 @@ if file_path and os.path.exists(file_path):
     gre = st.number_input("What's your GRE score?", step=10, min_value=260, max_value=340)
     ielts = st.number_input("What's your IELTS score?", step=0.5, min_value=5.0, max_value=9.0)
     ambition = st.text_input("What is your ambition?")
-    expense = st.text_input("What is your budget/year?", placeholder="$")
+    expense = st.text_input("Your expected average tuition fee?", placeholder="$")
 
     # Generate advice button
     if st.button("Get Advice"):
