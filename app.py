@@ -87,7 +87,7 @@ Keep in mind that you should only display universities that closely match the us
     return response.response
 
 # File path input field
-file_path = "top_5_unis.docx"
+file_path = "Ivy league info.docx"
 
 # Check if file path is not empty and exists
 if file_path and os.path.exists(file_path):
