@@ -22,7 +22,7 @@ st.image(image, width=150)
 # App title and introduction
 st.title("University Advisor🎓")
 st.markdown("### Built using Lyzr SDK🚀")
-st.markdown("")
+st.markdown("Welcome to the University Advisor app! 🎓 Ready to explore Ivy League possibilities? Share your GRE and IELTS scores, your ambition, and your budget. We'll tailor personalized recommendations just for you! Let's find your perfect Ivy League match together!")
 
 # Function to remove existing files in the directory
 def remove_existing_files(directory):
