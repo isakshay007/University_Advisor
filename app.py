@@ -60,7 +60,7 @@ def rag_implementation(file_path):
         raise ValueError("Unsupported file type. Only PDF and DOCX files are supported.")
 
 # Function to get Lyzr response
-def advisor_response(file_path, gre, gmat, ielts, expense, ambition, location):
+def advisor_response(file_path, gre, ielts, expense, ambition, location):
     rag = rag_implementation(file_path)
     prompt = f""" 
 You are an expert university student advisor. Always Introduce yourself. Your task is to provide university recommendations by analyzing the provided GRE scores {gre}, IELTS scores {ielts}, the user's ambition {ambition}, and budget {expense}, and suggest the most suitable universities from the uploaded document.
@@ -69,7 +69,7 @@ Here's your step-by-step guide:
 
 1. Begin by examining the uploaded document with detailed information on various universities to understand the options available.
 
-2. Next, evaluate the user's GRE {gre} and gmat {gmat} scores to gauge their academic standing.
+2. Next, evaluate the user's GRE {gre} and IELTS {ielts} scores to gauge their academic standing.
 
 3. Consider the user's ambition{ambition} and assess their financial constraints by looking at their budget {expense}.
 
@@ -77,7 +77,7 @@ Here's your step-by-step guide:
 
 5. Compile a shortlist of universities that best align with all of the user's criteria, focusing on those that closely match their profile.
 
-6. After shortlisting based on expense fees{expense}, GRE {gre}, and GMAT{gmat} scores, LOCATE universities either in or near the specified user preferred location{location} for additional suitability.
+6. After shortlisting based on expense fees{expense}, GRE {gre}, and IELTS {ielts} scores, LOCATE universities either in or near the specified user preferred location{location} for additional suitability.
 
 7. Present your recommendations to the user in a clear manner, explaining why each university is a strong match based on their individual needs and aspirations.
 
@@ -96,7 +96,7 @@ if file_path and os.path.exists(file_path):
      
     # User input 
     gre = st.number_input("What's your GRE score?", step=10, min_value=260, max_value=340)
-    gmat = st.number_input("What's your Gmat score?", step=10, min_value=200, max_value=800)
+    ietls = st.number_input("What's your Ielts score?", step=0.5, min_value=0, max_value=9)
     ambition = st.text_input("What is your ambition?")
     expense = st.text_input("What is your expected average fees?",placeholder="$")
     location = st.text_input("Whats your preferred location?")
@@ -106,7 +106,7 @@ if file_path and os.path.exists(file_path):
         if not gre or not ielts or not ambition or not expense:
             st.warning("Please fill out all fields.")
         else:
-            automatic_response = advisor_response(file_path, gre, gmat, ielts, expense, ambition,location)
+            automatic_response = advisor_response(file_path, gre, ielts, expense, ambition,location)
             st.markdown(automatic_response)
 else:
     st.info("Please enter a valid file path.")
