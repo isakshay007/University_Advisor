@@ -96,7 +96,7 @@ if file_path and os.path.exists(file_path):
      
     # User input 
     gre = st.number_input("What's your GRE score?", step=10, min_value=260, max_value=340)
-    ietls = st.number_input("What's your Ielts score?", step=0.5, min_value=0, max_value=9)
+    ielts = st.number_input("What's your Ielts score?", step=0.5, min_value=0, max_value=9)
     ambition = st.text_input("What is your ambition?")
     expense = st.text_input("What is your expected average fees?",placeholder="$")
     location = st.text_input("Whats your preferred location?")
