@@ -22,7 +22,7 @@ st.image(image, width=150)
 # App title and introduction
 st.title("University Advisor🎓")
 st.markdown("### Built using Lyzr SDK🚀")
-st.markdown("Welcome to the University Advisor app! Ready to explore Ivy League possibilities? Share your GRE and IELTS scores, your ambition, and your budget. We'll tailor personalized recommendations just for you! Let's find your perfect Ivy League match together!")
+st.markdown("Welcome to the University Advisor app! Share your GRE and IELTS scores, your ambition, and your budget. We'll tailor personalized university recommendations just for you!!!")
 
 # Function to remove existing files in the directory
 def remove_existing_files(directory):
@@ -60,7 +60,7 @@ def rag_implementation(file_path):
         raise ValueError("Unsupported file type. Only PDF and DOCX files are supported.")
 
 # Function to get Lyzr response
-def advisor_response(file_path, gre, ielts, expense, ambition, location):
+def advisor_response(file_path, gre, ielts, ambition, expense):
     rag = rag_implementation(file_path)
     prompt = f""" 
 You are an expert university student advisor. Always Introduce yourself. Your task is to provide university recommendations by analyzing the provided GRE scores {gre}, IELTS scores {ielts}, the user's ambition {ambition}, and budget {expense}, and suggest the most suitable universities from the uploaded document.
@@ -71,15 +71,13 @@ Here's your step-by-step guide:
 
 2. Next, evaluate the user's GRE {gre} and IELTS {ielts} scores to gauge their academic standing.
 
-3. Consider the user's ambition{ambition} and assess their financial constraints by looking at their budget {expense}.
+3. Consider the user's ambition {ambition} and assess their financial constraints by looking at their budget {expense}.
 
 4. Compare and match the user's qualifications, goals, and financial capacity with appropriate universities from your initial analysis.
 
 5. Compile a shortlist of universities that best align with all of the user's criteria, focusing on those that closely match their profile.
 
-6. After shortlisting based on expense fees{expense}, GRE {gre}, and IELTS {ielts} scores, LOCATE universities either in or near the specified user preferred location{location} for additional suitability.
-
-7. Present your recommendations to the user in a clear manner, explaining why each university is a strong match based on their individual needs and aspirations.
+6. Present your recommendations to the user in a clear manner, explaining why each university is a strong match based on their individual needs and aspirations.
 
 You must undertake this task with diligence as it will have a profound effect on a student's future education path.
 
@@ -89,24 +87,23 @@ Keep in mind that you should only display universities that closely match the us
     return response.response
 
 # File path input field
-file_path = "top_200_USA.pdf"
+file_path = "/workspaces/AI-Advocacy-App-Template/top_3_uni.docx"
 
 # Check if file path is not empty and exists
 if file_path and os.path.exists(file_path):
      
     # User input 
     gre = st.number_input("What's your GRE score?", step=10, min_value=260, max_value=340)
-    ielts = st.number_input("What's your Ielts score?", step=0.5, min_value=0, max_value=9)
+    ielts = st.number_input("What's your Ielts score?", step=0.5, min_value=0.0, max_value=9.0)
     ambition = st.text_input("What is your ambition?")
-    expense = st.text_input("What is your expected average fees?",placeholder="$")
-    location = st.text_input("Whats your preferred location?")
+    expense = st.text_input("What is your expected average fees?", placeholder="$")
 
     # Generate advice button
     if st.button("Get Advice"):
         if not gre or not ielts or not ambition or not expense:
             st.warning("Please fill out all fields.")
         else:
-            automatic_response = advisor_response(file_path, gre, ielts, expense, ambition,location)
+            automatic_response = advisor_response(file_path, gre, ielts, ambition, expense)
             st.markdown(automatic_response)
 else:
     st.info("Please enter a valid file path.")
